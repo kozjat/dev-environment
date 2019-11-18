@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+  mongodb:
+    image: mongo:3.4
+    restart: always
+    hostname: mongodb
+    container_name: mongodb
+    network_mode: host
+    volumes:
+      - $PWD/volumes/mongodb:/data/db
+
+  mariadb:
+    image: mariadb:10.4
+    hostname: mariadb
+    container_name: mariadb
+    restart: always
+    network_mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - $PWD/volumes/mariadb:/var/lib/mysql
+
+  redis:
+    image: redis:5.0
+    container_name: redis
+    hostname: redis
+    restart: always
+    network_mode: host
+    volumes:
+      - $PWD/volumes/redis:/data
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.8
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOST=127.0.0.1
+    restart: always
+    network_mode: host
+
+  nats:
+    image: nats:2.1
+    hostname: nats-server
+    container_name: nats-server
+    restart: always
+    network_mode: host
